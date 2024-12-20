@@ -1,0 +1,65 @@
+body{
+    background: url("/img/—Pngtree—vector\ search\ icon_3783210.png");
+    background-size: cover;
+    font-size: 16px;
+}
+#wrapper{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+#form-login{
+    max-width: 450px;
+    color: #f5f5f5;
+    flex-grow: 1;
+    padding: 30px 30px 40px;
+    background: #fff;
+    border: 2px solid #222;
+}
+.form-heading{
+    font-size: 2em;
+    color: #111;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-group{
+    border-bottom: 1px solid #111;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.form-group i{
+    color: #111;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-right: 10px;
+}
+.form-input{
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #333;
+    flex-grow: 1;
+}
+#eye i{
+    padding-right: 0;
+    cursor: pointer;
+}
+.form-submit{
+    background: transparent;
+    border: 1px solid #222;
+    width: 100%;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    transition: 0.25s ease-in-out;
+    margin-top: 30px;
+    background-color: grey;
+}
+.form-submit:hover{
+    background: #ff0157;
+    color: #111;
+    border-radius: 20%;
+}

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danhmobile</title>
+    <link rel="stylesheet" href="pro.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+  </head>
+  <body>
+    <div id="page" class="site">
+      <header>
+        <div class="header_top mobile_hide">
+          <div class="container">
+            <div class="wrapper flexitem">
+              <div class="left">
+                <ul class="flexitem main_links">
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#"></a>Buy Product</li>
+                  <li><a href="#"></a>Wishlist</li>
+                </ul>
+              </div>
+              <div class="right">
+                <ul class="flexitem main_links">
+                  <li><a href="#">Sign up</a></li>
+                  <li><a href="#">My account</a></li>
+                  <li><a href="#">Order tracking</a></li>
+                  <li>
+                    <a href="#"
+                      >USD<span class="icon_small"
+                        ><i class="fa-solid fa-chevron-down"></i></span
+                    ></a>
+                    <ul>
+                      <li class="current"><a href="#">USD</a></li>
+                      <li><a href="#">Euro</a></li>
+                      <li><a href="#">VND</a></li>
+                      <li><a href="#">IDR</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#"
+                      >English<span class="icon_small"
+                        ><i class="fa-solid fa-chevron-down"></i></span
+                    ></a>
+                    <ul>
+                      <li class="current"><a href="#">English</a></li>
+                      <li><a href="#">Vietnamese</a></li>
+                      <li><a href="#">German</a></li>
+                      <li><a href="#">Spanish</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#" id="Logout" onclick="logout()">Log out</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- header top -->
+        <div class="header_nav">
+          <div class="container">
+            <div class="wrapper flexitem">
+              <a href="#" class="trigger desktop_hide"
+                ><span class="i ri_menu_2_line"></span
+              ></a>
+              <div class="left flexitem">
+                <div class="logo">
+                  <a href=""><span class="circle"></span>Danhmobile</a>
+                </div>
+                <nav class="mobile_hide">
+                  <ul class="flexitem second_links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">Watch</a></li>
+                    <li><a href="#">Laptop</a></li>
+                    <li class="has_child">
+                      <a href="#"
+                        >Iphone
+                        <div class="icon_small">
+                          <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                      </a>
+                      <div class="mega">
+                        <div class="container">
+                          <div class="wrapper">
+                            <div class="flexcol">
+                              <div class="row">
+                                <h4>Iphone</h4>
+                                <ul>
+                                  <li><a href="#">Iphone 16 series</a></li>
+                                  <li><a href="#">Iphone 15 series</a></li>
+                                  <li><a href="#">Iphone 14 series</a></li>
+                                  <li><a href="#">Iphone 13 series</a></li>
+                                  <li><a href="#">Iphone 12 series</a></li>
+                                  <li><a href="#">Iphone 11 series</a></li>
+                                  <li><a href="#">Iphone X series</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="flexcol">
+                              <div class="row">
+                                <h4>Macbook</h4>
+                                <ul>
+                                  <li><a href="#">Macbook air M1</a></li>
+                                  <li><a href="#">Macbook Air M2</a></li>
+                                  <li><a href="#">Macbook AIR M3</a></li>
+                                  <li><a href="#">Macbook Pro</a></li>
+                                  <li><a href="#">Mac Mini</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="flexcol">
+                              <div class="row">
+                                <h4>Ipad</h4>
+                                <ul>
+                                  <li><a href="#">Ipad Pro</a></li>
+                                  <li><a href="#">Ipad Air</a></li>
+                                  <li><a href="#">Ipad Mini</a></li>
+                                  <li><a href="#">Ipad</a></li>
+                                  <li><a href="#">Apple pencil</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="flexcol">
+                              <div class="row">
+                                <h4>Apple watch</h4>
+                                <ul class="apple_products">
+                                  <li><a href="#">Apple watch series 10</a></li>
+                                  <li><a href="#">Apple Watch Ultra 2</a></li>
+                                  <li><a href="#">Apple watch SE</a></li>
+                                  <li><a href="#">Apple watch NIKE</a></li>
+                                  <li><a href="#">Apple case</a></li>
+                                </ul>
+                                <a href="#" class="view_all"
+                                  >View all!<i
+                                    class="fa-solid fa-arrow-right"
+                                  ></i
+                                ></a>
+                              </div>
+                            </div>
+                            <div class="flexcol products">
+                              <div class="row">
+                                <div class="media">
+                                  <div class="thumbnail object_cover">
+                                    <a href="#">
+                                      <img
+                                        src="/img/Apple-iPhone-16.webp"
+                                        alt=""
+                                      />
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="text_content">
+                                  <a href="#" class="primary_button"
+                                    >Order Now</a
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <!-- Mega container -->
+
+                    <li>
+                      <a href="#"
+                        >Samsung
+                        <div class="fly_item"><span>New!</span></div>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="right">
+                <ul class="flexitem second_links">
+                  <li class="mobile_hide">
+                    <a href="#">
+                      <div class="icon_large">
+                        <i class="fa-regular fa-heart"></i>
+                      </div>
+                      <div class="fly_item">
+                        <span class=" ">0</span>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="icart">
+                      <div class="icon_large">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="fly_item">
+                          <span class="item_number cart">0</span>
+                        </div>
+                      </div>
+                      <div class="icon_text">
+                        <div class="mini_text">Total</div>
+                        <div class="cart_total">$0.00</div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Giỏ hàng -->
+        <div id="cartModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cartItems"></div>
+            <!-- Phần này sẽ hiển thị thông tin sản phẩm -->
+            <div class="cart-summary">
+              <p>Total items: <span id="cartItemCount">0</span></p>
+              <p>Total price: <span id="cartTotalPrice">$0.00</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="header_main mobile_hide">
+          <div class="container">
+            <div class="wrapper flexitem">
+              <div class="left">
+                <div class="dpt_cat">
+                  <div class="dpt_head">
+                    <div class="main_text">All Departments</div>
+                    <div class="mini_text mobile_hide">Total 1059 Products</div>
+                    <a href="#" class="dpt_trigger mobile_hide">
+                      <i class="fa-solid fa-bars"></i>
+                    </a>
+                  </div>
+
+                  <div class="dpt_menu">
+                    <ul class="second_links">
+                      <li class="has_child mobile">
+                        <a href="#">
+                          <div class="icon_large">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                          </div>
+                          Mobile Phone
+                          <div class="icon_small">
+                            <i class="fa-solid fa-arrow-right"></i>
+                          </div>
+                        </a>
+                        <ul>
+                          <li><a href="#">Iphone</a></li>
+                          <li><a href="#">Samsung</a></li>
+                          <li><a href="#">Xiaomi</a></li>
+                          <li><a href="#">Huawei</a></li>
+                          <li><a href="#">Vertu</a></li>
+                        </ul>
+                      </li>
+                      <li class="has_child laptop">
+                        <a href="#">
+                          <div class="icon_large">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                          </div>
+                          Laptop
+                          <div class="icon_small">
+                            <i class="fa-solid fa-arrow-right"></i>
+                          </div>
+                        </a>
+                        <ul>
+                          <li><a href="#">Macbook</a></li>
+                          <li><a href="#">Dell</a></li>
+                          <li><a href="#">Asus</a></li>
+                          <li><a href="#">Lenovo Thinkpad</a></li>
+                          <li><a href="#">HP</a></li>
+                        </ul>
+                      </li>
+                      <li class="has_child ipad">
+                        <a href="#">
+                          <div class="icon_large">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                          </div>
+                          Ipad
+                          <div class="icon_small">
+                            <i class="fa-solid fa-arrow-right"></i>
+                          </div>
+                        </a>
+                        <ul>
+                          <li><a href="#">Ipad</a></li>
+                          <li><a href="#">Samsung Tablet</a></li>
+                        </ul>
+                      </li>
+                      <li class="has_child tv">
+                        <a href="#">
+                          <div class="icon_large">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                          </div>
+                          Television
+                        </a>
+                        <div class="mega">
+                          <div class="flexcol">
+                            <div class="row">
+                              <h4><a href="#">TV 4K</a></h4>
+                              <ul>
+                                <li><a href="#">LG</a></li>
+                                <li><a href="#">Sony</a></li>
+                                <li><a href="#">Samsung</a></li>
+                              </ul>
+                            </div>
+                            <div class="row">
+                              <h4><a href="#">OLED TV</a></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="has_child watch">
+                        <a href="#">
+                          <div class="icon_large">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                          </div>
+                          Digitial Watch
+                        </a>
+                      </li>
+                      <li class="has_child electronic">
+                        <a href="#">
+                          <div class="icon_large">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                          </div>
+                          Electronic
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="right">
+                <div class="search_box">
+                  <form action="" class="search">
+                    <span class="icon_large"
+                      ><i class="fa-solid fa-magnifying-glass"></i
+                    ></span>
+                    <input id="searchInput" type="search" placeholder="Search for products..." />
+                    <button type="submit">Search</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Header -->
+
+      <main>
+        <div class="slider">
+          <div class="container">
+            <div class="wrapper">
+              <!-- Add Swiper Slider -->
+              <div class="swiper myslider">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <div class="item">
+                      <div class="image object_cover">
+                        <img
+                          src="/img/gqRrsDk9mgZDHBxrwQwN43-1200-80.png"
+                          alt="Mobile"
+                        />
+                      </div>
+                      <div class="text_content flexcol">
+                        <h4>New arrival</h4>
+                        <h2>
+                          <span>Come and get it!</span><br /><span
+                            >Brand new iPhone 16</span
+                          >
+                        </h2>
+                        <a href="" class="primary_button">Shop now</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add more slides -->
+                  <div class="swiper-slide">
+                    <div class="item">
+                      <div class="image object_cover">
+                        <img
+                          src="/img/samsung s25 ultra giá bao nhiêu 1.jpg"
+                          alt="Product 2"
+                        />
+                      </div>
+                      <div class="text_content flexcol">
+                        <h4>Unleash Your Creativity with Galaxy S24 Ultra</h4>
+                        <h2 style="color: brown">Latest Samsung S24 Ultra</h2>
+                        <a href="#" class="primary_button">Shop Now</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="item">
+                      <div class="image object_cover">
+                        <img
+                          src="/img/google-pixel-9-series-2.webp"
+                          alt="Product 3"
+                        />
+                      </div>
+                      <div class="text_content flexcol">
+                        <h4>New Arrival</h4>
+                        <h2>Latest Google Pixel</h2>
+                        <a href="#" class="primary_button">Shop Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Navigation Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="brands">
+          <div class="container">
+            <div class="wrapper flexitem">
+              <div class="item">
+                <a href="#">
+                  <img src="/img/samsung.png" alt="" />
+                </a>
+              </div>
+              <div class="item">
+                <a href="#">
+                  <img src="/img/asus.png" alt="" />
+                </a>
+              </div>
+              <div class="item">
+                <a href="#">
+                  <img src="/img/oppo.png" alt="" />
+                </a>
+              </div>
+              <div class="item">
+                <a href="#">
+                  <img src="/img/pngwing.com (1).png" alt="" />
+                </a>
+              </div>
+              <div class="item">
+                <a href="#">
+                  <img src="/img/pngwing.com (2).png" alt="" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trending">
+          <div class="container">
+            <div class="wrapper">
+              <div class="sectop flexitem">
+                <h2>
+                  <span class="circle"></span><span>Trending Products</span>
+                </h2>
+              </div>
+              <div class="column">
+                <div class="flexwrap">
+                  <div class="row products big">
+                    <div class="item">
+                      <div class="offer">
+                        <p>Offer ends at</p>
+                        <ul class="flexcenter">
+                          <li>1</li>
+                          <li>15</li>
+                          <li>27</li>
+                          <li>60</li>
+                        </ul>
+                      </div>
+                      <div class="media">
+                        <div class="image">
+                          <a href="">
+                            <img src="/img/Apple-iPhone-16.webp" alt="" />
+                          </a>
+                        </div>
+                        <div class="hoverable">
+                          <ul>
+                            <li class="active">
+                              <a href="#"><i class="fa-solid fa-heart"></i></a>
+                            </li>
+                            <li>
+                              <a href=""><i class="fa-solid fa-eye"></i></a>
+                            </li>
+                            <li>
+                              <a href=""><i class="fa-solid fa-shuffle"></i></a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="discount circle flexcenter">
+                          <span>31%</span>
+                        </div>
+                      </div>
+                      <div class="content">
+                        <div class="rating">
+                          <div class="stars"></div>
+                          <span class="mini_text">(2,548)</span>
+                        </div>
+                        <h3 class="main_links">
+                          <a href="">Iphone 16 Pro Max</a>
+                        </h3>
+                        <div class="price">
+                          <span class="current">$899</span>
+                          <span class="normal mini_text">$999</span>
+                        </div>
+                        <div class="stock mini_text">
+                          <div class="qty">
+                            <span
+                              >Stock:
+                              <strong class="qty_available">107</strong></span
+                            >
+                            <span
+                              >Sold:
+                              <strong class="qty_sold">3,459</strong></span
+                            >
+                          </div>
+                          <div class="bar">
+                            <div class="available"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row products mini">
+                    <div class="item">
+                      <div class="media">
+                        <div class="thumbnail object_cover">
+                          <a href="#">
+                            <img
+                              src="/img/Samsung-Galaxy-S25-Series.webp"
+                              alt=""
+                              height="260px"
+                            />
+                          </a>
+                        </div>
+                        <div class="hoverable">
+                          <ul>
+                            <li class="active">
+                              <a href="#"><i class="fa-solid fa-heart"></i></a>
+                            </li>
+                            <li>
+                              <a href=""><i class="fa-solid fa-eye"></i></a>
+                            </li>
+                            <li>
+                              <a href=""><i class="fa-solid fa-shuffle"></i></a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="discount circle flexcenter">
+                          <span>32%</span>
+                        </div>
+                      </div>
+                      
+                      <div class="content">
+                        <h3 class="main_links">
+                          <a href="">Samsung galaxy s25</a>
+                        </h3>
+                        <div class="rating">
+                          <div class="stars"></div>
+                          <span class="mini_text">(2,548)</span>
+                        </div>
+                        <div class="price">
+                          <span class="current">$899</span>
+                          <span class="normal mini_text">$999</span>
+                        </div>
+                        <div class="mini_text">
+                          <p>2975 sold</p>
+                          <p>Free shipping</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+
+                  <div class="row products mini">
+                    <div class="item">
+                      <div class="media">
+                        <div class="thumbnail object_cover">
+                          <a href="#">
+                            <img
+                              src="/img/Apple-iPhone-16-Pro-hero-geo-240909_inline.jpg.large.jpg"
+                              alt=""
+                              style="height: 257px"
+                              width="250px"
+                            />
+                          </a>
+                        </div>
+                        <div class="hoverable">
+                          <ul>
+                            <li class="active">
+                              <a href="#"><i class="fa-solid fa-heart"></i></a>
+                            </li>
+                            <li>
+                              <a href="#"><i class="fa-solid fa-eye"></i></a>
+                            </li>
+                            <li>
+                              <a href=""><i class="fa-solid fa-shuffle"></i></a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="discount circle flexcenter">
+                          <span>32%</span>
+                        </div>
+                      </div>
+                      <div class="content">
+                        <h3 class="main_links">
+                          <a href="">Iphone 16 Pro Max</a>
+                        </h3>
+                        <div class="rating">
+                          <div class="stars"></div>
+                          <span class="mini_text">(2,548)</span>
+                        </div>
+                        <div class="price">
+                          <span class="current">$899</span>
+                          <span class="normal mini_text">$999</span>
+                        </div>
+                        <div class="mini_text">
+                          <p>2975 sold</p>
+                          <p>Free shipping</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Trending Products -->
+
+        <div class="features">
+          <div class="container">
+            <div class="wrapper">
+              <div class="column">
+                <div class="sectop flexitem">
+                  <h2>
+                    <span class="circle"></span><span>Feature Products</span>
+                  </h2>
+                  <div class="second_links">
+                    <a href="#" class="view_all"
+                      >View all<i class="fa-solid fa-arrow-right"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <div class="products main flexwrap" id="featureProductList"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Main ele -->
+      <footer></footer>
+      <!-- Footer -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+      // var role = sessionStorage.getItem("role");
+      // if (role == "admin") {
+      //   window.location.href = "Pro mange.html";
+      // } else if (role == "user") {
+      //   window.location = "Productpage.html";
+      // } else {
+      //   alert("Unvalid session");
+      //   window.location = "login.html";
+      // }
+      function logout() {
+        sessionStorage.removeItem("role");x
+        window.location = "login.html";
+      }
+    </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBujIwoE2iCfachjj2GHITya8Yuz5IqRfI",
+        authDomain: "sale-web-58c64.firebaseapp.com",
+        databaseURL: "https://sale-web-58c64-default-rtdb.firebaseio.com",
+        projectId: "sale-web-58c64",
+        storageBucket: "sale-web-58c64.appspot.com",
+        messagingSenderId: "769764857149",
+        appId: "1:769764857149:web:2e72c9e9e33dac508ee154",
+        measurementId: "G-E7HGTV4N3L",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const database = getDatabase(app);
+
+      let allProducts=[];
+      let cart = []; // Mảng để lưu trữ các sản phẩm trong giỏ hàng
+      let totalAmount = 0;
+      let cartCount = 0;
+
+      function updateCart(price, productName) {
+        totalAmount += parseFloat(price.replace("$", ""));
+        cartCount += 1;
+        document.querySelector(".cart_total").innerText = `$${totalAmount.toFixed(2)}`;
+        document.querySelector(".item_number").innerText = cartCount;
+
+        // them san pham
+        cart.push({
+          name: productName,
+          price: price,
+        });
+      }
+
+      function renderProducts(products, elementId) {
+        const productContainer = document.getElementById(elementId);
+        if (!productContainer) {
+          console.error(`No element found with ID: ${elementId}`);
+          return;
+        }
+
+        productContainer.innerHTML = "";
+
+        for (let productId in products) {
+          const product = products[productId];
+          const productHTML = `
+        <div class="item">
+          <div class="media">
+            <div class="">
+              <a href="${product.link}">
+                <img src="${product.image}" alt="${product.Name}" />
+              </a>
+            </div>
+            <div class="discount circle flexcenter">
+              <span>${product.discount || "0%"}</span>
+            </div>
+          </div>
+          <div class="content">
+            <h3 class="main_links">${product.Name}</h3>
+            <div class="price">
+              <span class="current">${product.Price}</span>
+            </div>
+            <div class="mini_text">
+              <p>${product.sold || 0} sold</p>
+              <p>Quantity: ${product.Quantity || "No stock left"}</p>
+              <button class="btn" data-price="${product.Price}" data-name="${
+            product.Name
+          }" role="button">Buy now</button>
+            </div>
+          </div>
+        </div>
+      `;
+          productContainer.innerHTML += productHTML;
+        }
+
+        const buyButtons = document.querySelectorAll(".btn");
+        buyButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const price = this.getAttribute("data-price");
+            const productName = this.getAttribute("data-name");
+            updateCart(price, productName);
+          });
+        });
+      }
+
+      window.onload = function () {
+        fetchProducts("Products", "featureProductList");
+      };
+
+      function searchProducts(searchTerm) {
+    const filteredProducts = {};
+    for (let productId in allProducts) {
+      const product = allProducts[productId];
+      if (product.Name.toLowerCase().startsWith(searchTerm.toLowerCase())) {
+        filteredProducts[productId] = product;
+      }
+    }
+    renderProducts(filteredProducts, 'featureProductList');
+  }
+
+      function fetchProducts(listName, elementId) {
+        const productListRef = ref(database, listName);
+        onValue(
+          productListRef,
+          (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              renderProducts(data, elementId);
+            } else {
+              console.error(`No products found in the list: ${listName}`);
+            }
+          },
+          {
+            onlyOnce: true,
+          }
+        );
+      }
+
+    document.querySelector('input[type="search"]').addEventListener('input', function() {
+    const searchTerm = this.value;
+    searchProducts(searchTerm);
+  });
+
+      // Modal giỏ hàng
+      const cartModal = document.getElementById("cartModal");
+      const cartItemsContainer = document.getElementById("cartItems");
+      const cartButton = document.querySelector(".icart"); // Biểu tượng giỏ hàng
+      const closeModal = document.querySelector(".close"); // Nút đóng modal
+
+      cartButton.addEventListener("click", function () {
+        cartItemsContainer.innerHTML = ""; // Xóa nội dung cũ
+        cart.forEach((item) => {
+          const cartItemHTML = `
+        <p>${item.name}: ${item.price}</p>
+      `;
+          cartItemsContainer.innerHTML += cartItemHTML;
+        });
+
+        document.getElementById("cartItemCount").innerText = cartCount;
+        document.getElementById(
+          "cartTotalPrice"
+        ).innerText = `$${totalAmount.toFixed(2)}`;
+        cartModal.style.display = "block"; // Hiển thị modal
+      });
+
+      closeModal.addEventListener("click", function () {
+        cartModal.style.display = "none"; // Đóng modal khi nhấn nút 'x'
+      });
+
+      window.onclick = function (event) {
+        if (event.target == cartModal) {
+          cartModal.style.display = "none";
+        }
+      };
+    </script>
+
+    <script>
+      const swiper = new Swiper(".myslider", {
+        direction: "horizontal",
+        loop: true,
+
+        pagination: {
+          el: ".swiper-pagination",
+        },
+
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      });
+    </script>
+  </body>
+</html>

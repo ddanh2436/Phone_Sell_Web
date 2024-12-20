@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="registerForm">
+        <h1>Register</h1>
+        <div class="input-box">
+          <input type="text" placeholder="Email" id="email" required />
+          <i class="bx bxs-user-circle"></i>
+        </div>
+
+        <div class="input-box">
+          <input type="text" placeholder="Username" id="username" required />
+          <i class="bx bxs-user-circle"></i>
+        </div>
+
+        <div class="input-box">
+          <input type="password" placeholder="Password" id="password" required />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+
+        <div class="input-box">
+          <input type="password" placeholder="Confirm Password" id="newpass" required />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+
+        <!-- User Role Selection -->
+        <div class="input-box">
+          <select id="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <button class="btn" id="btn">Register</button>
+
+        <div class="register-link">
+          <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC0xBUDjldMphYvaCNLi9EXgRbmGE7MOQQ",
+      authDomain: "register-72f9f.firebaseapp.com",
+      projectId: "register-72f9f",
+      storageBucket: "register-72f9f.appspot.com",
+      messagingSenderId: "179655394027",
+      appId: "1:179655394027:web:ab5b1606dd4faeb33c34ae",
+      measurementId: "G-KRCFFK7KSP"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+    const database = getDatabase(app);
+
+    // Register button event listener
+    document.querySelector("#registerForm").addEventListener("submit", register);
+
+    function register(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const newpass = document.getElementById("newpass").value;
+      const username = document.getElementById("username").value;
+      const role = document.getElementById("role").value; // Get selected role (admin/user)
+
+      if (!validate_email(email) || !validate_password(password)) {
+        alert("Invalid email or password. Password must be at least 6 characters.");
+        return;
+      }
+
+      if (!validate_newpass(password, newpass)) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      if (!validate_field(username)) {
+        alert("Username is required.");
+        return;
+      }
+
+      // Firebase authentication: Create a new user with email and password
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          const user = auth.currentUser;
+
+          // Create a user data object with the role
+          const user_data = {
+            Email: email,
+            Username: username,
+            Password:password,
+            Role: role, // Add the role to the user data
+            last_login: Date.now()
+          };
+
+          // Store user data in the Realtime Database under 'Users/' + user.uid
+          set(ref(database, 'Users/' + user.uid), user_data);
+
+          alert("User registered successfully!");
+        })
+        .catch((error) => {
+          const error_message = error.message;
+          alert(error_message);
+        });
+    }
+
+    // Validation functions
+    function validate_email(email) {
+      const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+      return expression.test(email);
+    }
+
+    function validate_password(password) {
+      return password.length >= 6;
+    }
+
+    function validate_newpass(password, newpass) {
+      return newpass === password;
+    }
+
+    function validate_field(field) {
+      return field && field.length > 0;
+    }
+  </script>
+</html>

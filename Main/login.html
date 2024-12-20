@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="loginForm">
+        <h1>Login</h1>
+        <div class="input-box">
+          <input type="text" id="email" placeholder="Email" required />
+          <i class="bx bxs-user-circle"></i>
+        </div>
+        <div class="input-box">
+          <input type="text" id="user" placeholder="Username" required />
+          <i class="bx bxs-user-circle"></i>
+        </div>
+        <div class="input-box">
+          <input type="password" id="password" placeholder="Password" required />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+        <div class="remember-forgot">
+          <label><input type="checkbox" id="checkRemember" /> Remember me</label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn" id="btn">Login</button>
+        <div class="register-link">
+          <p>Don't have an account? <a href="register.html">Register</a></p>
+        </div>
+      </form>
+    </div>
+
+    <script type="module">
+      // Import Firebase SDK
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+      import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyC0xBUDjldMphYvaCNLi9EXgRbmGE7MOQQ",
+        authDomain: "register-72f9f.firebaseapp.com",
+        projectId: "register-72f9f",
+        storageBucket: "register-72f9f.appspot.com",
+        messagingSenderId: "179655394027",
+        appId: "1:179655394027:web:ab5b1606dd4faeb33c34ae",
+        measurementId: "G-KRCFFK7KSP"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const database = getDatabase(app);
+
+      const form = document.querySelector("#loginForm");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Get email and password from the form
+        const email = form.querySelector("#email").value;
+        const username = form.querySelector("#user").value;
+        const password = form.querySelector("#password").value;
+
+       
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+
+            // Retrieve role from the database
+            const dbRef = ref(database);
+            get(child(dbRef, "Users/" + user.uid + "/Role"))
+              .then((snapshot) => {
+                if (snapshot.exists()) {
+                  const role = snapshot.val();
+                  console.log("User role:", role);
+
+                  sessionStorage.setItem("role", role);
+                  // Redirect based on role
+                  if (role === "admin") {
+                    window.location.href = "Pro mange.html";
+                  } else if (role === "user") {
+                    window.location.href = "Productpage.html";
+                  } else {
+                    alert("Invalid user role");
+                  }
+                } else {
+                  alert("No role data available for this user.");
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching user role:", error);
+                alert("Error fetching user role.");
+              });
+          })
+          .catch((error) => {
+            console.error("Login error:", error);
+            const errorMessage = error.message.includes("user-not-found")
+              ? "Tài khoản không tồn tại, vui lòng kiểm tra lại."
+              : error.message.includes("wrong-password")
+              ? "Sai mật khẩu, vui lòng thử lại."
+              : "Đăng nhập thất bại. Vui lòng thử lại.";
+
+            alert(`Lỗi đăng nhập: ${errorMessage}`);
+          });
+      });
+
+      // Remember Me functionality
+      document.getElementById("checkRemember").addEventListener("change", saveCredentials);
+
+      function saveCredentials() {
+        const checkbox = document.getElementById("checkRemember");
+        if (checkbox.checked) {
+          const username = document.getElementById("user").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          localStorage.setItem("user", username);
+          localStorage.setItem("email", email);
+          localStorage.setItem("password", password);
+        } else {
+          // Remove credentials if checkbox is unchecked
+          localStorage.removeItem("user");
+          localStorage.removeItem("email");
+          localStorage.removeItem("password");
+        }
+      }
+
+      // Pre-fill form fields if data is in Local Storage
+      const usernameFromLocal = localStorage.getItem("user") || "";
+      const emailFromLocal = localStorage.getItem("email") || "";
+      const passwordFromLocal = localStorage.getItem("password") || "";
+
+      if (usernameFromLocal) {
+        document.getElementById("user").value = usernameFromLocal;
+      }
+      if (emailFromLocal) {
+        document.getElementById("email").value = emailFromLocal;
+      }
+      if (passwordFromLocal) {
+        document.getElementById("password").value = passwordFromLocal;
+      }
+    </script>
+  </body>
+</html>
