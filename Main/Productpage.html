@@ -683,10 +683,10 @@
       import {
         getDatabase,
         ref,
-        onValue,
+        get,
       } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
 
+      // --- Firebase Config ---
       const firebaseConfig = {
         apiKey: "AIzaSyBujIwoE2iCfachjj2GHITya8Yuz5IqRfI",
         authDomain: "sale-web-58c64.firebaseapp.com",
@@ -697,149 +697,129 @@
         appId: "1:769764857149:web:2e72c9e9e33dac508ee154",
         measurementId: "G-E7HGTV4N3L",
       };
-
       const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
       const database = getDatabase(app);
 
-      let allProducts=[];
-      let cart = []; // Mảng để lưu trữ các sản phẩm trong giỏ hàng
+      // --- Global Variables ---
+      let allProducts = {}; // Lưu trữ tất cả sản phẩm để tìm kiếm
+      let cart = [];
       let totalAmount = 0;
       let cartCount = 0;
 
-      function updateCart(price, productName) {
-        totalAmount += parseFloat(price.replace("$", ""));
-        cartCount += 1;
-        document.querySelector(".cart_total").innerText = `$${totalAmount.toFixed(2)}`;
-        document.querySelector(".item_number").innerText = cartCount;
+      const productContainer = document.getElementById("featureProductList");
+      const searchInput = document.getElementById("searchInput");
 
-        // them san pham
-        cart.push({
-          name: productName,
-          price: price,
-        });
-      }
-
-      function renderProducts(products, elementId) {
-        const productContainer = document.getElementById(elementId);
+      /**
+       * Hiển thị danh sách sản phẩm lên giao diện
+       * @param {object} products - Đối tượng chứa các sản phẩm cần hiển thị
+       */
+      function renderProducts(products) {
         if (!productContainer) {
-          console.error(`No element found with ID: ${elementId}`);
-          return;
-        }
+            console.error("Không tìm thấy container cho sản phẩm!");
+            return;
+        };
+        productContainer.innerHTML = ""; // Xóa sản phẩm cũ
 
-        productContainer.innerHTML = "";
+        if (Object.keys(products).length === 0) {
+            productContainer.innerHTML = "<p>Không tìm thấy sản phẩm nào phù hợp.</p>";
+            return;
+        }
 
         for (let productId in products) {
-          const product = products[productId];
-          const productHTML = `
-        <div class="item">
-          <div class="media">
-            <div class="">
-              <a href="${product.link}">
-                <img src="${product.image}" alt="${product.Name}" />
-              </a>
-            </div>
-            <div class="discount circle flexcenter">
-              <span>${product.discount || "0%"}</span>
-            </div>
-          </div>
-          <div class="content">
-            <h3 class="main_links">${product.Name}</h3>
-            <div class="price">
-              <span class="current">${product.Price}</span>
-            </div>
-            <div class="mini_text">
-              <p>${product.sold || 0} sold</p>
-              <p>Quantity: ${product.Quantity || "No stock left"}</p>
-              <button class="btn" data-price="${product.Price}" data-name="${
-            product.Name
-          }" role="button">Buy now</button>
-            </div>
-          </div>
-        </div>
-      `;
-          productContainer.innerHTML += productHTML;
+            const product = products[productId];
+            if (typeof product !== 'object' || !product.Name) continue;
+
+            const productHTML = `
+                <div class="item">
+                  <div class="media">
+                      <a href="#">
+                        <img src="${product.image || 'https://via.placeholder.com/300'}" alt="${product.Name}" />
+                      </a>
+                  </div>
+                  <div class="content">
+                    <h3 class="main_links">${product.Name}</h3>
+                    <div class="price">
+                      <span class="current">${product.Price || '$0.00'}</span>
+                    </div>
+                    <div class="mini_text">
+                      <p>Còn lại: ${product.Quantity > 0 ? product.Quantity : "Hết hàng"}</p>
+                      <button class="btn buy-now-btn" 
+                              data-price="${product.Price}" 
+                              data-name="${product.Name}"
+                              ${product.Quantity > 0 ? '' : 'disabled'}>
+                        ${product.Quantity > 0 ? 'Mua ngay' : 'Hết hàng'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            `;
+            productContainer.innerHTML += productHTML;
         }
-
-        const buyButtons = document.querySelectorAll(".btn");
-        buyButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            const price = this.getAttribute("data-price");
-            const productName = this.getAttribute("data-name");
-            updateCart(price, productName);
-          });
-        });
       }
-
-      window.onload = function () {
-        fetchProducts("Products", "featureProductList");
-      };
-
-      function searchProducts(searchTerm) {
-    const filteredProducts = {};
-    for (let productId in allProducts) {
-      const product = allProducts[productId];
-      if (product.Name.toLowerCase().startsWith(searchTerm.toLowerCase())) {
-        filteredProducts[productId] = product;
-      }
-    }
-    renderProducts(filteredProducts, 'featureProductList');
-  }
-
-      function fetchProducts(listName, elementId) {
-        const productListRef = ref(database, listName);
-        onValue(
-          productListRef,
-          (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-              renderProducts(data, elementId);
-            } else {
-              console.error(`No products found in the list: ${listName}`);
+      
+      /**
+       * Gắn sự kiện click cho các nút mua hàng
+       */
+      function attachBuyButtonListeners() {
+        productContainer.addEventListener('click', function(event) {
+            if (event.target.classList.contains('buy-now-btn')) {
+                const button = event.target;
+                const price = button.getAttribute("data-price");
+                const productName = button.getAttribute("data-name");
+                updateCart(price, productName);
             }
-          },
-          {
-            onlyOnce: true,
-          }
-        );
+        });
       }
 
-    document.querySelector('input[type="search"]').addEventListener('input', function() {
-    const searchTerm = this.value;
-    searchProducts(searchTerm);
-  });
-
-      // Modal giỏ hàng
-      const cartModal = document.getElementById("cartModal");
-      const cartItemsContainer = document.getElementById("cartItems");
-      const cartButton = document.querySelector(".icart"); // Biểu tượng giỏ hàng
-      const closeModal = document.querySelector(".close"); // Nút đóng modal
-
-      cartButton.addEventListener("click", function () {
-        cartItemsContainer.innerHTML = ""; // Xóa nội dung cũ
-        cart.forEach((item) => {
-          const cartItemHTML = `
-        <p>${item.name}: ${item.price}</p>
-      `;
-          cartItemsContainer.innerHTML += cartItemHTML;
-        });
-
-        document.getElementById("cartItemCount").innerText = cartCount;
-        document.getElementById(
-          "cartTotalPrice"
-        ).innerText = `$${totalAmount.toFixed(2)}`;
-        cartModal.style.display = "block"; // Hiển thị modal
-      });
-
-      closeModal.addEventListener("click", function () {
-        cartModal.style.display = "none"; // Đóng modal khi nhấn nút 'x'
-      });
-
-      window.onclick = function (event) {
-        if (event.target == cartModal) {
-          cartModal.style.display = "none";
+      /**
+       * Tìm kiếm sản phẩm (linh hoạt hơn)
+       * @param {string} searchTerm - Từ khóa tìm kiếm
+       */
+      function searchProducts(searchTerm) {
+        const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+        if (!lowerCaseSearchTerm) {
+            renderProducts(allProducts); // Nếu ô tìm kiếm trống, hiện tất cả sản phẩm
+            return;
         }
+        
+        const filteredProducts = {};
+        for (let productId in allProducts) {
+            const product = allProducts[productId];
+            if (product.Name.toLowerCase().includes(lowerCaseSearchTerm)) {
+                filteredProducts[productId] = product;
+            }
+        }
+        renderProducts(filteredProducts);
+      }
+      
+      // --- Giỏ hàng ---
+      function updateCart(price, productName) {
+        if (!price) return;
+        totalAmount += parseFloat(price.replace(/[^0-9.-]+/g,""));
+        cartCount += 1;
+        document.querySelector(".cart_total").innerText = `$${totalAmount.toFixed(2)}`;
+        document.querySelector(".item_number.cart").innerText = cartCount;
+        cart.push({ name: productName, price: price });
+        alert(`Đã thêm "${productName}" vào giỏ hàng!`);
+      }
+
+      // --- Tải dữ liệu ban đầu và thiết lập sự kiện ---
+      window.onload = function () {
+        const productListRef = ref(database, 'Products');
+        get(productListRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                allProducts = snapshot.val(); // Lưu lại tất cả sản phẩm
+                renderProducts(allProducts); // Hiển thị lần đầu
+                attachBuyButtonListeners(); // Gắn sự kiện sau khi sản phẩm đã được render
+            } else {
+                productContainer.innerHTML = "<p>Không có sản phẩm nào để hiển thị.</p>";
+            }
+        }).catch(error => console.error("Lỗi tải sản phẩm:", error));
+
+        // Lắng nghe sự kiện tìm kiếm
+        searchInput.addEventListener('input', () => searchProducts(searchInput.value));
       };
+      
     </script>
 
     <script>

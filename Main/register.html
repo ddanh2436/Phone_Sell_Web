@@ -15,7 +15,7 @@
       <form id="registerForm">
         <h1>Register</h1>
         <div class="input-box">
-          <input type="text" placeholder="Email" id="email" required />
+          <input type="email" placeholder="Email" id="email" required />
           <i class="bx bxs-user-circle"></i>
         </div>
 
@@ -30,11 +30,15 @@
         </div>
 
         <div class="input-box">
-          <input type="password" placeholder="Confirm Password" id="newpass" required />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            id="newpass"
+            required
+          />
           <i class="bx bxs-lock-alt"></i>
         </div>
 
-        <!-- User Role Selection -->
         <div class="input-box">
           <select id="role" required>
             <option value="user">User</option>
@@ -53,11 +57,20 @@
   <script type="module">
     // Import Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
-    // Firebase configuration
+    // LƯU Ý QUAN TRỌNG VỀ BẢO MẬT:
+    // KHÔNG BAO GIỜ ĐỂ API KEY TRỰC TIẾP TRONG CODE FRONTEND CHO CÁC ỨNG DỤNG THỰC TẾ.
+    // Kẻ xấu có thể lấy cắp key và truy cập vào dữ liệu của bạn.
+    // Hãy cân nhắc sử dụng backend hoặc các giải pháp bảo mật của Firebase như App Check.
     const firebaseConfig = {
       apiKey: "AIzaSyC0xBUDjldMphYvaCNLi9EXgRbmGE7MOQQ",
       authDomain: "register-72f9f.firebaseapp.com",
@@ -65,83 +78,77 @@
       storageBucket: "register-72f9f.appspot.com",
       messagingSenderId: "179655394027",
       appId: "1:179655394027:web:ab5b1606dd4faeb33c34ae",
-      measurementId: "G-KRCFFK7KSP"
+      measurementId: "G-KRCFFK7KSP",
     };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     const auth = getAuth();
     const database = getDatabase(app);
 
     // Register button event listener
-    document.querySelector("#registerForm").addEventListener("submit", register);
+    document
+      .querySelector("#registerForm")
+      .addEventListener("submit", register);
 
     function register(event) {
-      event.preventDefault(); // Prevent the form from submitting normally
+      event.preventDefault(); // Ngăn form gửi đi theo cách truyền thống
 
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const newpass = document.getElementById("newpass").value;
       const username = document.getElementById("username").value;
-      const role = document.getElementById("role").value; // Get selected role (admin/user)
+      const role = document.getElementById("role").value;
 
-      if (!validate_email(email) || !validate_password(password)) {
-        alert("Invalid email or password. Password must be at least 6 characters.");
+      // --- Cải tiến Validation ---
+      if (password !== newpass) {
+        alert("Mật khẩu và mật khẩu xác nhận không khớp.");
+        return;
+      }
+      if (password.length < 6) {
+        alert("Mật khẩu phải có ít nhất 6 ký tự.");
+        return;
+      }
+      if (!username.trim()) {
+        alert("Tên người dùng không được để trống.");
         return;
       }
 
-      if (!validate_newpass(password, newpass)) {
-        alert("Passwords do not match.");
-        return;
-      }
-
-      if (!validate_field(username)) {
-        alert("Username is required.");
-        return;
-      }
-
-      // Firebase authentication: Create a new user with email and password
+      // Tạo người dùng mới với Firebase Auth
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          const user = auth.currentUser;
+        .then((userCredential) => {
+          const user = userCredential.user;
 
-          // Create a user data object with the role
-          const user_data = {
+          // --- ĐÃ XÓA MẬT KHẨU KHỎI ĐÂY ---
+          // Chỉ lưu những thông tin không nhạy cảm
+          const userData = {
             Email: email,
             Username: username,
-            Password:password,
-            Role: role, // Add the role to the user data
-            last_login: Date.now()
+            Role: role,
+            createdAt: new Date().toISOString(), // Thêm thời gian tạo tài khoản
           };
 
-          // Store user data in the Realtime Database under 'Users/' + user.uid
-          set(ref(database, 'Users/' + user.uid), user_data);
-
-          alert("User registered successfully!");
+          // Lưu thông tin người dùng vào Realtime Database
+          set(ref(database, "Users/" + user.uid), userData)
+            .then(() => {
+              alert("Đăng ký người dùng thành công!");
+              window.location.href = "login.html"; // Chuyển hướng đến trang đăng nhập
+            })
+            .catch((dbError) => {
+              alert("Lỗi khi lưu dữ liệu người dùng: " + dbError.message);
+            });
         })
         .catch((error) => {
-          const error_message = error.message;
-          alert(error_message);
+          // Cung cấp thông báo lỗi rõ ràng hơn
+          if (error.code === "auth/email-already-in-use") {
+            alert("Email này đã được sử dụng. Vui lòng chọn email khác.");
+          } else if (error.code === 'auth/invalid-email') {
+            alert('Địa chỉ email không hợp lệ.');
+          }
+          else {
+            alert("Đã xảy ra lỗi khi đăng ký: " + error.message);
+          }
         });
-    }
-
-    // Validation functions
-    function validate_email(email) {
-      const expression = /^[^@]+@\w+(\.\w+)+\w$/;
-      return expression.test(email);
-    }
-
-    function validate_password(password) {
-      return password.length >= 6;
-    }
-
-    function validate_newpass(password, newpass) {
-      return newpass === password;
-    }
-
-    function validate_field(field) {
-      return field && field.length > 0;
     }
   </script>
 </html>
