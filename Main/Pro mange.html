@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/Product management/style.css" />
+    <link rel="stylesheet" href="../Product management/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -92,9 +92,6 @@
       const productPriceInput = document.getElementById("product-price");
       const tableBody = document.querySelector("#table tbody");
 
-      /**
-       * Tải và hiển thị tất cả sản phẩm chỉ trong 1 lần gọi
-       */
       function showAllProducts() {
         get(child(dbRef, "Products")).then((snapshot) => {
             tableBody.innerHTML = ""; // Xóa dữ liệu cũ
@@ -116,9 +113,6 @@
         });
       }
       
-      /**
-       * Tạo một hàng (tr) cho bảng sản phẩm
-       */
       function createProductRow(id, productData) {
         const tr = document.createElement("tr");
         tr.setAttribute("id", `product-row-${id}`);
@@ -235,7 +229,19 @@
             })
             .catch((error) => alert("Cập nhật thất bại: " + error.message));
       });
-      
+
+      //Add sticky header
+      const header = document.querySelector("header");
+      const sticky = header.offsetTop;
+
+      window.onscroll = function() {
+        if (window.pageYOffset > sticky) {
+          header.classList.add("sticky");
+        } else {
+          header.classList.remove("sticky");
+        }
+      };
+
       document.getElementById("resetButton").addEventListener("click", resetForm);
 
     </script>

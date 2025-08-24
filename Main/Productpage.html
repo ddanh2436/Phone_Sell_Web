@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
     />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   </head>
   <body>
     <div id="page" class="site">
@@ -706,13 +707,10 @@
       let totalAmount = 0;
       let cartCount = 0;
 
+
       const productContainer = document.getElementById("featureProductList");
       const searchInput = document.getElementById("searchInput");
 
-      /**
-       * Hiển thị danh sách sản phẩm lên giao diện
-       * @param {object} products - Đối tượng chứa các sản phẩm cần hiển thị
-       */
       function renderProducts(products) {
         if (!productContainer) {
             console.error("Không tìm thấy container cho sản phẩm!");
@@ -729,29 +727,36 @@
             const product = products[productId];
             if (typeof product !== 'object' || !product.Name) continue;
 
+            const discountValue = product.discount ? String(product.discount).replace('%', '') : null;
+
             const productHTML = `
-                <div class="item">
-                  <div class="media">
-                      <a href="#">
-                        <img src="${product.image || 'https://via.placeholder.com/300'}" alt="${product.Name}" />
-                      </a>
+              <div class="item">
+                ${discountValue ? `<div class="badge-discount">Giảm ${discountValue}%</div>` : ''}
+                
+                <div class="media">
+                  <a href="#"><img src="${product.image || 'https://via.placeholder.com/250'}" alt="${product.Name}" /></a>
+                </div>
+                
+                <div class="content">
+                  <h3 class="main_links">${product.Name}</h3>
+                  <div class="price">
+                    <span class="current">${product.Price}</span>
+                    ${product.oldPrice ? `<span class="old">${product.oldPrice}</span>` : ''}
                   </div>
-                  <div class="content">
-                    <h3 class="main_links">${product.Name}</h3>
-                    <div class="price">
-                      <span class="current">${product.Price || '$0.00'}</span>
-                    </div>
-                    <div class="mini_text">
-                      <p>Còn lại: ${product.Quantity > 0 ? product.Quantity : "Hết hàng"}</p>
-                      <button class="btn buy-now-btn" 
-                              data-price="${product.Price}" 
-                              data-name="${product.Name}"
-                              ${product.Quantity > 0 ? '' : 'disabled'}>
-                        ${product.Quantity > 0 ? 'Mua ngay' : 'Hết hàng'}
-                      </button>
-                    </div>
+                   <div class="mini_text">
+                       <p>Còn lại: ${product.Quantity > 0 ? product.Quantity : "Hết hàng"}</p>
+                   </div>
+                </div>
+
+                <div class="product-actions">
+                  <div class="rating">
+                    ${renderStarRating(product.rating)}
+                  </div>
+                  <div class="favorite">
+                    <button><i class='bx bx-heart'></i></button>
                   </div>
                 </div>
+              </div>
             `;
             productContainer.innerHTML += productHTML;
         }
@@ -819,7 +824,29 @@
         // Lắng nghe sự kiện tìm kiếm
         searchInput.addEventListener('input', () => searchProducts(searchInput.value));
       };
-      
+
+
+function renderStarRating(rating) {
+        // 1. Chuyển đổi rating sang dạng số. Nếu thất bại, coi như không có rating.
+        const numericRating = Number(rating);
+
+        // 2. Kiểm tra chặt chẽ: nếu không phải là số (isNaN) hoặc nhỏ hơn/bằng 0, trả về text.
+        if (isNaN(numericRating) || numericRating <= 0) {
+          return `<div class="rating-text">Chưa có đánh giá</div>`;
+        }
+        
+        // 3. Logic tính toán sao giữ nguyên, nhưng giờ đã an toàn.
+        let starsHTML = '';
+        const fullStars = Math.floor(numericRating);
+        const halfStar = (numericRating % 1) >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+
+        for (let i = 0; i < fullStars; i++) starsHTML += '<i class="bx bxs-star"></i>';
+        if (halfStar) starsHTML += '<i class="bx bxs-star-half"></i>';
+        for (let i = 0; i < emptyStars; i++) starsHTML += '<i class="bx bx-star"></i>';
+        
+        return `<span class="rating-score">${numericRating.toFixed(1)}</span> ${starsHTML}`;
+      }
     </script>
 
     <script>
